@@ -1,0 +1,33 @@
+.App {
+  text-align: center;
+}
+
+.tableRow {
+  display: none;
+}
+
+.tableRow.expanded,
+.tableRow.tableRow1 {
+  display: block;
+  display: table-row;
+}
+
+.tableRow2 {
+  background: #f5f5f5;
+}
+
+.tableRow3 {
+  background: #e5e5e5;
+}
+
+.tableRow4 {
+  background: #d5d5d5;
+}
+
+.tableRow5 {
+  background: #c5c5c5;
+}
+
+.tableRow6 {
+  background: #b5b5b5;
+}
