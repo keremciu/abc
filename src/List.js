@@ -61,15 +61,15 @@ class List extends Component {
     }
 
     deleteItem(get) {
+        /*
+            `deleted` property of `parent object` needs to be true
+        */
         let newData = this.state.data;
-        console.log('naber');
 
-        // findkey
+        // find the item
         const find = findItem(newData, get.ID);
 
         find.deleted = true;
-
-        console.log(newData);
 
         this.setState({
             data: newData
