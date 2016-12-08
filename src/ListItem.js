@@ -26,6 +26,12 @@ class ListItem extends Component {
         });
     }
 
+    onDelete = (ID) => {
+        this.props.handleDelete({
+            ID,
+        });
+    }
+
     render() {
         const { Item, level } = this.props;
         let rowClass = `tableRow tableRow${level}`;
@@ -51,7 +57,7 @@ class ListItem extends Component {
                 <TableRowColumn>{Item.City}</TableRowColumn>
                 <TableRowColumn>
                     <IconButton
-                        onTouchTap={this.onDelete}
+                        onClick={this.onDelete.bind(this, Item.ID)}
                     >
                         {this.props.deleteIcon}
                     </IconButton>

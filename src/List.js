@@ -8,7 +8,7 @@ import {
 
 // data handler
 import data from '../dataset.json';
-import expander from './helpers';
+import { findItem, expander } from './helpers';
 const tree = expander(data);
 
 import ListItem from './ListItem';
@@ -20,27 +20,56 @@ class List extends Component {
             data: tree
         };
         this.expandItem = this.expandItem.bind(this);
+        this.deleteItem = this.deleteItem.bind(this);
     }
 
     expandItem(get) {
-        const newData = this.state.data.map((Item) => {
-            if (Item.ID === get.ID) {
-                if (Item.expanded === undefined) {
-                    Item.expanded = true;
-                } else {
-                    Item.expanded = !Item.expanded;
-                }
-                Item.children = Item.children.map((Child) => {
-                    if (Child.expand === undefined) {
-                        Child.expand = true;
-                    } else {
-                        Child.expand = !Child.expand;
-                    }
-                    return Child;
-                });
+        /*
+            `expanded` property of `parent object` needs to be true
+            `expanded` property shows `open` or `close` icon on parent object
+            `expand` property of `children` needs to be true
+            `expand` property show/hide the table rows of children
+        */
+        let newData = this.state.data;
+
+        // find the item
+        const find = findItem(newData, get.ID);
+
+        // first time give it a expanded property
+        if (find.expanded === undefined) {
+            find.expanded = true;
+        } else {
+        // second time change the property 
+            find.expanded = !find.expanded;
+        }
+
+        // expand all children
+        find.children = find.children.map((Child) => {
+            // first time give it a expand property
+            if (Child.expand === undefined) {
+                Child.expand = true;
+            } else {
+            // second time change the property
+                Child.expand = !Child.expand;
             }
-            return Item;
+            return Child;
         });
+
+        this.setState({
+            data: newData
+        });
+    }
+
+    deleteItem(get) {
+        let newData = this.state.data;
+        console.log('naber');
+
+        // findkey
+        const find = findItem(newData, get.ID);
+
+        find.deleted = true;
+
+        console.log(newData);
 
         this.setState({
             data: newData
@@ -51,22 +80,26 @@ class List extends Component {
         const self = this;
         level++;
 
-        return data.map((Item, key) => (
+        return data.map((Item, key) => {
+            if (Item.deleted) return;
+
+            return (
             [
                 <ListItem
                     key={key}
                     Item={Item}
                     level={level}
                     handleExpand={this.expandItem}
+                    handleDelete={this.deleteItem}
                 />,
                 self.printTree(Item.children, level)
             ]
-        ))
+            )
+        })
     }
 
     render() {
         const { data } = this.state;
-        console.log(data);
         return (
             <div style={{ marginBottom: '10px' }}>
                 <Table>

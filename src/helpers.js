@@ -1,3 +1,15 @@
+const findItem = function (arr, id) {
+  if (arr) {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].ID === id) {
+        return arr[i];
+      }
+      const found = findItem(arr[i].children, id);
+      if (found) return found;
+    }
+  }
+};
+
 const expander = function (array, parent, tree) {
     // first time build an array
     tree = typeof tree !== 'undefined' ? tree : [];
@@ -26,4 +38,4 @@ const expander = function (array, parent, tree) {
     return tree;
 }
 
-export default expander;
+export { expander, findItem };
