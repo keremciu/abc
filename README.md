@@ -2,8 +2,8 @@ I created this project with create-react-app.
 
 👾
 
-you should run these commands; 
+To the install dependencies, run `npm install`.
 
-npm install
+To begin the development and preview, run `npm start`.
 
-npm start
+To create a production bundle, use `npm run build`.
